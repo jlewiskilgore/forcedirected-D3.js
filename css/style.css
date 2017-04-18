@@ -13,3 +13,13 @@ body {
 	display: block;
 	margin: auto;
 }
+
+.links line {
+	stroke-width: 1px;
+	stroke: #fff;
+}
+
+.nodes circle {
+	stroke-width: 3px;
+	stroke: #ff0;
+}
