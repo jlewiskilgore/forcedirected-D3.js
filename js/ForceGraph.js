@@ -25,15 +25,17 @@ d3.json(dataUrl, function(json) {
 		.force("center", d3.forceCenter( width/2, height/2 ));
 
 	// Append Links
-	var link = svg.selectAll(".link")
-		.attr("class", "link")
+	var link = svg.append("g")
+		.attr("class", "links")
+		.selectAll("link")
 		.data(dataSet.links)
 		.enter()
 		.append("line");
 
 	// Append Nodes
-	var node = svg.selectAll(".node")
-		.attr("class", "node")
+	var node = svg.append("g")
+		.attr("class", "nodes")
+		.selectAll("circle")
 		.data(dataSet.nodes)
 		.enter()
 		.append("circle")
@@ -43,13 +45,11 @@ d3.json(dataUrl, function(json) {
 	simulation
 		.nodes(dataSet.nodes);
 
+	//simulation.force("link")
+	//	.links(dataSet.links);
+
 	function ticked(e) {
-		/* link
-			.attr("x1", function(d) { return d.source.x; })
-			.attr("y1", function(d) { return d.source.y; })
-			.attr("x2", function(d) { return d.target.x; })
-			.attr("y1", function(d) { return d.target.x; })
-		*/
+		console.log("test ticked");
 	}
 
 });
