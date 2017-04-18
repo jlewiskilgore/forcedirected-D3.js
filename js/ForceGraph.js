@@ -15,14 +15,15 @@ d3.json(dataUrl, function(json) {
 	var svg = d3.select(".forcegraph")
 		.attr("width", width)
 		.attr("height", height)
-		.attr("viewBox", "-200 -200 550 550");
+		.attr("viewBox", "-300 -300 600 600");
 
-	var simulation = d3.forceSimulation()
-		.force("link", d3.forceLink().distance(20).strength(1).id(function(d) {
-			return d.country;
-		}))
+	var simulation = d3.forceSimulation(dataNodes)
+		.force("link", d3.forceLink(dataLinks).distance(200))
 		.force("charge", d3.forceManyBody())
-		.force("center", d3.forceCenter( width/2, height/2 ));
+		.force("x", d3.forceX())
+		.force("y", d3.forceY())
+		.alphaTarget(1)
+		.on("tick", ticked);
 
 	// Append Links
 	var link = svg.append("g")
@@ -42,14 +43,16 @@ d3.json(dataUrl, function(json) {
 			.attr("r", 5)
 			.attr("fill", "#fff");
 
-	simulation
-		.nodes(dataSet.nodes);
-
-	//simulation.force("link")
-	//	.links(dataSet.links);
-
 	function ticked(e) {
-		console.log("test ticked");
+		node
+			.attr("cx", function(d) { return d.x; })
+			.attr("cy", function(d) { return d.y; })
+
+		link
+			.attr("x1", function(d) { return d.source.x; })
+			.attr("y1", function(d) { return d.source.y; })
+			.attr("x2", function(d) { return d.target.x; })
+			.attr("y2", function(d) { return d.target.y; })
 	}
 
 });
