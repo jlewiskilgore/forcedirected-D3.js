@@ -29,7 +29,7 @@ d3.json(dataUrl, function(json) {
 	var link = svg.append("g")
 		.attr("class", "links")
 		.selectAll("link")
-		.data(dataSet.links)
+		.data(dataLinks)
 		.enter()
 		.append("line");
 
@@ -37,7 +37,7 @@ d3.json(dataUrl, function(json) {
 	var node = svg.append("g")
 		.attr("class", "nodes")
 		.selectAll("circle")
-		.data(dataSet.nodes)
+		.data(dataNodes)
 		.enter()
 		.append("circle")
 			.attr("r", 5)
