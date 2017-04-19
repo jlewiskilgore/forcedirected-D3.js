@@ -41,7 +41,11 @@ d3.json(dataUrl, function(json) {
 		.enter()
 		.append("circle")
 			.attr("r", 5)
-			.attr("fill", "#fff");
+			.attr("fill", "#fff")
+		.call(d3.drag()
+			.on("start", dragstarted)
+			.on("drag", dragged)
+			.on("end", dragended));
 
 	function ticked(e) {
 		node
@@ -53,6 +57,27 @@ d3.json(dataUrl, function(json) {
 			.attr("y1", function(d) { return d.source.y; })
 			.attr("x2", function(d) { return d.target.x; })
 			.attr("y2", function(d) { return d.target.y; })
+	}
+
+	function dragstarted(d) {
+		if(!d3.event.active) {
+			simulation.alphaTarget(0.3).restart();
+		}
+		d.fx = d.x;
+		d.fy = d.y;
+	}
+
+	function dragged(d) {
+		d.fx = d3.event.x;
+		d.fy = d3.event.y;
+	}
+
+	function dragended(d) {
+		if(!d3.event.active) {
+			simulation.alphaTarget(0);
+		}
+		d.fx = null;
+		d.fy = null;
 	}
 
 });
