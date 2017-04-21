@@ -4,8 +4,8 @@ d3.json(dataUrl, function(json) {
 	console.log(json);
 	var dataSet = json;
 
-	var height = 600;
-	var width = 600;
+	var height = 650;
+	var width = 1000;
 
 	var dataLinks = dataSet.links;
 	var dataNodes = dataSet.nodes;
@@ -15,14 +15,11 @@ d3.json(dataUrl, function(json) {
 	var svg = d3.select(".forcegraph")
 		.attr("width", width)
 		.attr("height", height)
-		.attr("viewBox", "-300 -300 600 600");
+		.attr("viewBox", "-700 -800 1200 1600");
 
 	var simulation = d3.forceSimulation(dataNodes)
 		.force("link", d3.forceLink(dataLinks).distance(200))
 		.force("charge", d3.forceManyBody())
-		.force("x", d3.forceX())
-		.force("y", d3.forceY())
-		.alphaTarget(1)
 		.on("tick", ticked);
 
 	// Append Links
