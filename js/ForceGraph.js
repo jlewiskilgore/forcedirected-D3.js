@@ -12,14 +12,14 @@ d3.json(dataUrl, function(json) {
 
 	d3.select(".forcegraph-title").text("Force-directed Graph of National Contiguity");
 
-	var svg = d3.select(".forcegraph")
+	var svg = d3.select("svg")
 		.attr("width", width)
 		.attr("height", height)
-		.attr("viewBox", "-700 -800 1200 1600");
+		.attr("viewBox", "-700 -825 1200 1800");
 
 	var simulation = d3.forceSimulation(dataNodes)
 		.force("link", d3.forceLink(dataLinks).distance(200))
-		.force("charge", d3.forceManyBody())
+		.force("charge", d3.forceManyBody().strength(-30))
 		.on("tick", ticked);
 
 	// Append Links
@@ -31,14 +31,13 @@ d3.json(dataUrl, function(json) {
 		.append("line");
 
 	// Append Nodes
-	var node = svg.append("g")
-		.attr("class", "nodes")
-		.selectAll("circle")
+	var node = d3.select(".forcegraph")
 		.data(dataNodes)
 		.enter()
-		.append("circle")
-			.attr("r", 5)
-			.attr("fill", "#fff")
+		.append("img")
+		.attr("class", function(d) {
+			return "flag flag-" + d.code;
+		})
 		.call(d3.drag()
 			.on("start", dragstarted)
 			.on("drag", dragged)
@@ -46,14 +45,14 @@ d3.json(dataUrl, function(json) {
 
 	function ticked(e) {
 		node
-			.attr("cx", function(d) { return d.x; })
-			.attr("cy", function(d) { return d.y; })
+			.style("left", function(d) { return d.x + "px"; })
+			.style("top", function(d) { return d.y + "px"; });
 
 		link
 			.attr("x1", function(d) { return d.source.x; })
 			.attr("y1", function(d) { return d.source.y; })
 			.attr("x2", function(d) { return d.target.x; })
-			.attr("y2", function(d) { return d.target.y; })
+			.attr("y2", function(d) { return d.target.y; });
 	}
 
 	function dragstarted(d) {

@@ -12,11 +12,16 @@ body {
 	background-color: black;
 	display: block;
 	margin: auto;
+
 }
 
 .links line {
 	stroke-width: 1px;
 	stroke: #fff;
+}
+
+.nodes flag {
+	position: absolute;
 }
 
 .nodes circle {
