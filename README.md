@@ -11,4 +11,4 @@ Requirements:
 
 Data used for this graph is provided by:https://raw.githubusercontent.com/DealPete/forceDirected/master/countries.json
 
-Images of Flags are from: https://www.flag-sprites.com
+Images of Flags are from: https://github.com/hjnilsson/country-flags

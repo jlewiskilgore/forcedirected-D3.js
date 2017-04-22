@@ -12,7 +12,8 @@ d3.json(dataUrl, function(json) {
 
 	d3.select(".forcegraph-title").text("Force-directed Graph of National Contiguity");
 
-	var svg = d3.select("svg")
+	var svg = d3.select(".forcegraph")
+		.append("svg")
 		.attr("width", width)
 		.attr("height", height)
 		.attr("viewBox", "-700 -825 1200 1800");
@@ -25,28 +26,40 @@ d3.json(dataUrl, function(json) {
 	// Append Links
 	var link = svg.append("g")
 		.attr("class", "links")
-		.selectAll("link")
+		.selectAll("line")
 		.data(dataLinks)
 		.enter()
 		.append("line");
 
 	// Append Nodes
-	var node = d3.select(".forcegraph")
+	var node = svg.append("g")
+		.attr("class", "nodes")
+		.selectAll(".node")
 		.data(dataNodes)
 		.enter()
-		.append("img")
-		.attr("class", function(d) {
-			return "flag flag-" + d.code;
-		})
+		.append("g")
+		.attr("class", "node")
 		.call(d3.drag()
 			.on("start", dragstarted)
 			.on("drag", dragged)
 			.on("end", dragended));
 
+	node.append("image")
+		.attr("xlink:href", function(d) {
+			console.log(d.code);
+			return "https://rawgit.com/hjnilsson/country-flags/master/svg/" + d.code + ".svg";
+		})
+		.attr("x", "-10")
+		.attr("y", "-10")
+		.attr("width", 70)
+		.attr("height", 50);
+
+
 	function ticked(e) {
 		node
-			.style("left", function(d) { return d.x + "px"; })
-			.style("top", function(d) { return d.y + "px"; });
+			.attr("transform", function(d) {
+				return "translate(" + d.x + "," + d.y + ")";
+			});
 
 		link
 			.attr("x1", function(d) { return d.source.x; })
